@@ -5,12 +5,15 @@
 
 typedef unsigned char uchar;
 
-extern void delayms(uchar t);
+extern uchar PWM;
+
+extern void delay(uchar t);
 extern void delayms(uchar ms);
-extern void ISR_PWM_FREQ(void);
-extern void ISR_PWM_PulseWidth(void);
+extern uchar ISR_PWM_FREQ(void);
+extern uchar ISR_PWM_PulseWidth(void);
 extern void Beep(void);
 extern void ISR_IRDA(void);
 extern uchar ISR_KEY(void);
+extern void InitTimer(void);
 
 #endif

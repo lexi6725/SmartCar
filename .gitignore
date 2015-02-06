@@ -4,3 +4,7 @@
 *.M51
 *.lnp
 *.plg
+*.Lexi
+*.bak
+*.uvopt
+*.uvproj
