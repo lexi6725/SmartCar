@@ -5,6 +5,9 @@
 
 typedef unsigned char uchar;
 
+#define KEY_1	1
+#define KEY_2	2
+
 extern uchar PWM;
 
 extern void delay(uchar t);
@@ -13,7 +16,7 @@ extern uchar ISR_PWM_FREQ(void);
 extern uchar ISR_PWM_PulseWidth(void);
 extern void Beep(void);
 extern void ISR_IRDA(void);
-extern uchar ISR_KEY(void);
+extern void ISR_KEY(void);
 extern void InitTimer(void);
 
 #endif

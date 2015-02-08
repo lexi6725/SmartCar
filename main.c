@@ -1,6 +1,6 @@
 #include "config.h"
 
-uchar PWM = 0xff;
+uchar PWM = 0x3;
 
 sbit dula=P2^6;
 sbit wela=P2^7;
@@ -18,8 +18,9 @@ void DisableLED()
 
 void SystemInit(void)
 {
-	DisableLED();
+	P1 = 0xff;
 	InitTimer();
+	DisableLED();
 }
 
 void main()
@@ -29,22 +30,10 @@ void main()
 	
 	while(1)
 	{
-		key = ISR_KEY();
-		if (key == '+')
-		{
-			if (PWM < 0xff)
-				PWM++;
-			else
-				Beep();
-		}
-		else if (key == '-')
-		{
-			if (PWM > 2) 
-				PWM--;
-			else
-				Beep();
-		}
+		ISR_KEY();
+		key = 0;
 		ISR_IRDA();
+		delayms(100);
 	}
 	
 }
@@ -63,5 +52,5 @@ void delayms(uchar ms)
 void delay(uchar t)
 { 
 	int k;
-	for (k = 0; k < 100*t; ++k);
+	for (k = 0; k < 10*t; ++k);
 }
