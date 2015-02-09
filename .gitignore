@@ -8,3 +8,5 @@
 *.bak
 *.uvopt
 *.uvproj
+*bin
+*elf

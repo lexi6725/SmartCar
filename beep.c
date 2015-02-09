@@ -11,5 +11,5 @@ void Beep(void)
 		BEEP=!BEEP;
 	} 
 	BEEP=1;
-	delayms(10);
+	delayms(1);
 }

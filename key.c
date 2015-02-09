@@ -6,7 +6,7 @@ sbit  S3 =P3^5 ;
 void ISR_KEY(void)
 {
 	do{
-		if (PWM >= 0x2)
+		if (PWM >= 0x1)
 		{
 			PWM--;
 			delayms(10);
@@ -16,7 +16,7 @@ void ISR_KEY(void)
 	}while(S3==0);
 	
 	do{
-		if (PWM <= 0xff)
+		if (PWM < 0xfd)
 		{
 			PWM++;
 			delayms(10);

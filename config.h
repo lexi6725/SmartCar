@@ -8,6 +8,8 @@ typedef unsigned char uchar;
 #define KEY_1	1
 #define KEY_2	2
 
+#define PWN_FREQ	16
+
 extern uchar PWM;
 
 extern void delay(uchar t);

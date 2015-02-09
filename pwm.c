@@ -7,7 +7,7 @@ sbit pwm=P0^0;
 uchar ISR_PWM_FREQ(void)
 {
 	freq++;
-	if (freq>=8)
+	if (freq>=PWN_FREQ)
 	{
 		pwm = 0;
 		freq = 0;
