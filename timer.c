@@ -1,22 +1,22 @@
 #include "config.h"
 
+uchar timer0_count = 0;
+
 void InitTimer(void)
 {
 	// Timer0 & Timer1 Use Mode 0: 13Bit
-	TMOD=0x00;
+	TMOD = (0|T0M0|T1M0);
 	
-	// Timer0 1ms: 8192-1024 = 0x1c00
- 	TH0=0xf0;           // 延时常数
-    TL0=0x00;           // 频率调节
+ 	TH0=TIMER0PRETH;      // 延时常数
+    TL0=TIMER0PRETL;           // 频率调节
 	
-	// Timer1 0.5ms: 8192-512 = 0x7c80
-    TH1=0xff;            // 脉宽调节
-    TL1=0x00;
+    TH1=TIMER1PRETH;      // 脉宽调节
+    TL1=TIMER1PRETL;
 	
-	EA=1;
-	ET0=1;
-	ET1=1;
-    TR0=1;				// 关闭定时器1
+	Enable_Interrupt();
+	Enable_TIMER0_Int();
+	Enable_TIMER1_Int();
+    StartTimer0();				// 关闭定时器1
 }
 
 /*
@@ -25,24 +25,44 @@ void InitTimer(void)
  */
 void timer0() interrupt 1 
 {
-    TH0= 0xe0;
-    TL0= 0x00;
+    TH0= TIMER0PRETH;
+    TL0= TIMER0PRETL;
 	
+	// ISR PWM Frequrey
     if(ISR_PWM_FREQ())      //PWM 频率调节
 	{
-		TR1 = 0;
-		TH1 = 0xfe;
-		TR1 = 1;
+		/*StopTimer1();
+		TH1 = TIMER1PRE;
+		StartTimer1();*/
+		pwmFlag |= PWMPULSE;
 	}
-		
+	if (pwmFlag&PWMPULSE)
+	{
+		if(ISR_PWM_PulseWidth())
+			pwmFlag &= ~PWMPULSE;
+	}
+	
+	if (KeyFlag & 0x0f)
+	{
+		ISR_KEY();
+	}
+	
+	if (SystemFlag&bDelay)
+		timer0_count++;
+	else
+		timer0_count = 0;
 }
 
 void timer1() interrupt 3 
 {
-    if(ISR_PWM_PulseWidth())     //脉宽调节
-		TR1 = 0;
+	// ISR PWM PluseWidth
+    /*if(ISR_PWM_PulseWidth())     //脉宽调节
+	{
+		StopTimer1();
+	}
 	else
 	{
-		TH1 = 0xfe;
-	}
+		TH1 = TIMER1PRE;
+	}*/
+	
 }

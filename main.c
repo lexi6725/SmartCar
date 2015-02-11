@@ -1,6 +1,7 @@
 #include "config.h"
 
 uchar PWM = 0x70;
+uchar SystemFlag = 0;
 
 sbit dula=P2^6;
 sbit wela=P2^7;
@@ -25,15 +26,17 @@ void SystemInit(void)
 
 void main()
 {
-	uchar key;
 	SystemInit();
 	
 	while(1)
 	{
-		ISR_KEY();
-		key = 0;
+		KeyCheck();
+		
 		ISR_IRDA();
+		
 		delayms(100);
+		
+		RateProcess();
 	}
 	
 }
@@ -42,15 +45,18 @@ void main()
 
 void delayms(uchar ms)
 {
-	unsigned char i ;
-	while(ms--)
+	SystemFlag |= bDelay;
+	while(1)
 	{
-		for(i = 0 ; i < 120 ; i++) ;
+		if (timer0_count > ms*8)
+		{
+			SystemFlag &= ~bDelay;
+			return;
+		}
 	}
 }
 
 void delay(uchar t)
 { 
-	int k;
-	for (k = 0; k < 10*t; ++k);
+	while(--t);
 }

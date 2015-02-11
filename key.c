@@ -1,27 +1,44 @@
 #include "config.h"
 
-sbit  S2 =P3^4 ;
-sbit  S3 =P3^5 ;
+uchar KeyFlag = 0;
+uchar keytime[4];
+
+uchar Bit2Int(uchar Bit)
+{
+	uchar i = 0;
+	while(Bit != 0)
+	{
+		Bit /= 2;
+		++i;
+	}
+	return i-1;
+}
 
 void ISR_KEY(void)
 {
-	do{
-		if (PWM >= 0x1)
-		{
-			PWM--;
-			delayms(10);
-		}
-		else
-			Beep();
-	}while(S3==0);
+	uchar key = Bit2Int(KeyFlag&0x0f);
 	
-	do{
-		if (PWM < 0xfd)
+	if (key < 4)
+	{
+		if (keytime[key]++ >= KEYDELAYTIME)
 		{
-			PWM++;
-			delayms(10);
+			KeyFlag |= (1<<key);
+			keytime[key] = 0;
 		}
 		else
-			Beep();
-	}while(S2==0);
+		{
+			KeyFlag &= ~(1<<key);
+			keytime[key] = 0;
+		}
+	}
+}
+
+void KeyCheck(void)
+{
+	uchar i;
+	for (i = 0; i < 4; ++i)
+	{
+		if (P3&(1<<(i+4)))
+			KeyFlag |= (1<<i);
+	}
 }
