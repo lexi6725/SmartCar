@@ -20,6 +20,7 @@ void DisableLED()
 void SystemInit(void)
 {
 	P1 = 0xff;
+	InitIRDA();
 	InitTimer();
 	DisableLED();
 }
@@ -32,7 +33,8 @@ void main()
 	{
 		KeyCheck();
 		
-		ISR_IRDA();
+		if (SystemFlag & bIRDA)
+			IrProcess();
 		
 		delayms(100);
 		

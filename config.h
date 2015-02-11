@@ -7,6 +7,7 @@ typedef unsigned char uchar;
 
 // System Flag
 extern uchar SystemFlag;
+#define bIRDA		(1<<6)
 #define bDelay		(1<<7)
 
 #define KEY_1	1
@@ -48,7 +49,8 @@ extern uchar KeyFlag;
 #define KEY3ON		(1<<6)
 #define KEY4ON		(1<<7)
 
-// Interrupt 
+//******** Interrupt************************* 
+//Timer
 #define Enable_Interrupt()	(EA = 1);
 #define Enable_TIMER0_Int()		(ET0 = 1);
 #define Enable_TIMER1_Int()		(ET1 = 1);
@@ -56,6 +58,9 @@ extern uchar KeyFlag;
 #define StopTimer0()			(TR0 = 0);
 #define StartTimer1()			(TR1 = 1);
 #define StopTimer1()			(TR1 = 0);
+// extra interrupt
+#define Enabel_EX0INT()			(EX0 = 1);
+#define EX0M0					(1<<0)
 
 // Delay
 extern uchar timer0_count;		// Use to Delay() count
@@ -73,5 +78,8 @@ extern void Beep(void);
 extern void KeyCheck(void);
 extern void KeyInit(void);
 extern void RateProcess(void);
+extern void InitIRDA(void);
+extern void ISR_IRDA_PulseWidth(void);
+
 
 #endif

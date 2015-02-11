@@ -28,6 +28,8 @@ void timer0() interrupt 1
     TH0= TIMER0PRETH;
     TL0= TIMER0PRETL;
 	
+	ISR_IRDA_PulseWidth();
+	
 	// ISR PWM Frequrey
     if(ISR_PWM_FREQ())      //PWM 频率调节
 	{
