@@ -6,12 +6,12 @@ uchar keytime[4];
 uchar Bit2Int(uchar Bit)
 {
 	uchar i = 0;
-	while(Bit != 0)
+	for(; i < 8; ++i)
 	{
-		Bit /= 2;
-		++i;
+		if ((Bit>>i)&0x1)
+			return i;
 	}
-	return i-1;
+	return ~1;
 }
 
 void ISR_KEY(void)

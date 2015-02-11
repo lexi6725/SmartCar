@@ -79,6 +79,7 @@ extern void KeyCheck(void);
 extern void KeyInit(void);
 extern void RateProcess(void);
 extern void InitIRDA(void);
+extern void IrProcess(void);
 extern void ISR_IRDA_PulseWidth(void);
 
 

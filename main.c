@@ -1,6 +1,6 @@
 #include "config.h"
 
-uchar PWM = 0x70;
+uchar PWM = 0x1;
 uchar SystemFlag = 0;
 
 sbit dula=P2^6;

@@ -35,16 +35,16 @@ void RateProcess(void)
 {
 	if (KeyFlag & KEY1ON)
 	{
-		if(PWM >= 1)
-			PWM--;
+		if (PWM < 0x20)
+			PWM++;
 		else
 			Beep();
 		KeyFlag &= ~(KEY1ON);
 	}
 	else if (KeyFlag & KEY2ON)
 	{
-		if (PWM < 0x20)
-			PWM++;
+		if(PWM >= 1)
+			PWM--;
 		else
 			Beep();
 		KeyFlag &= ~(KEY1ON);
