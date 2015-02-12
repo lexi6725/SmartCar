@@ -7,7 +7,7 @@ sbit dula=P2^6;
 sbit wela=P2^7;
 
 
-void DisableLED()
+/*void DisableLED()
 {
 	P0=0x00;
 	dula=1;
@@ -16,14 +16,15 @@ void DisableLED()
 	dula=0;
 	wela=0;
 	delay(10);
-}	
+}	*/
 
 void SystemInit(void)
 {
 	P1 = 0xff;
 	EnableIRDA();
 	InitTimer();
-	DisableLED();
+	//DisableLED();
+	DisableLEDs();
 }
 
 void main()
@@ -33,6 +34,9 @@ void main()
 	while(1)
 	{
 		//KeyCheck();
+		DisplayHex(KeyFlag, 1);
+		DisplayHex(SystemFlag, 3);
+		DisplayHex(pwmFlag, 5);
 		
 		if (SystemFlag & bIRDA)
 		{

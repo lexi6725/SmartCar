@@ -67,15 +67,16 @@ extern uchar KeyFlag;
 #define EX0M0					(1<<0)
 
 // *********** Digital LED **************** //
-#define SEG_a
-#define SEG_b
-#define SEG_c
-#define SEG_d
-#define SEG_e
-#define SEG_f
-#define SEG_g
-#define SEG_point
+#define SEG_a		(1<<0)
+#define SEG_b		(1<<1)
+#define SEG_c		(1<<2)
+#define SEG_d		(1<<3)
+#define SEG_e		(1<<4)
+#define SEG_f		(1<<5)
+#define SEG_g		(1<<6)
+#define SEG_point	(1<<7)
 
+#define CHAR_0	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f)
 #define CHAR_1	(SEG_b|SEG_c)
 #define CHAR_2	(SEG_a|SEG_b|SEG_d|SEG_e|SEG_g)
 #define CHAR_3	(SEG_a|SEG_b|SEG_d|SEG_c|SEG_g)
@@ -85,7 +86,6 @@ extern uchar KeyFlag;
 #define CHAR_7	(SEG_a|SEG_b|SEG_c)
 #define CHAR_8	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
 #define CHAR_9	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_f|SEG_g)
-#define CHAR_0	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f)
 #define CHAR_A	(SEG_a|SEG_b|SEG_c|SEG_e|SEG_f|SEG_g)
 #define CHAR_B	(SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
 #define CHAR_C	(SEG_a|SEG_d|SEG_e|SEG_f)
@@ -116,6 +116,7 @@ extern void EnableIRDA(void);
 extern void DisableIRDA(void);
 extern void IrProcess(void);
 extern void ISR_IRDA_PulseWidth(void);
-
+extern void DisplayHex(uchar num, uchar addr);
+extern void DisableLEDs(void);
 
 #endif
