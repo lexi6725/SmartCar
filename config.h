@@ -42,7 +42,7 @@ extern bit pwmstartflag;
 // Key
 extern uchar KeyFlag;
 #define KEYNUM			4
-#define KEYDELAYTIME	80	// 80 * 0.128ms = 10.24ms
+#define KEYDELAYTIME	0xff	// 80 * 0.128ms = 10.24ms
 #define KEY1DOWN	(1<<0)
 #define KEY2DOWN	(1<<1)
 #define KEY3DOWN	(1<<2)

@@ -15,6 +15,7 @@ void DisableLEDs(void)
 	dula=0;
 	wela=0;
 	delay(10);
+	P0 = 0xff;
 }
 
 void SelectBit(uchar addr)

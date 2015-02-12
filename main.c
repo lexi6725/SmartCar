@@ -1,6 +1,6 @@
 #include "config.h"
 
-uchar PWM = 0x3;
+uchar PWM = 0x10;
 uchar SystemFlag = 0;
 
 sbit dula=P2^6;
@@ -34,9 +34,9 @@ void main()
 	while(1)
 	{
 		//KeyCheck();
-		DisplayHex(KeyFlag, 1);
-		DisplayHex(SystemFlag, 3);
-		DisplayHex(pwmFlag, 5);
+		//DisplayHex(KeyFlag, 1);
+		//DisplayHex(SystemFlag, 3);
+		//DisplayHex(pwmFlag, 5);
 		
 		if (SystemFlag & bIRDA)
 		{
@@ -44,7 +44,7 @@ void main()
 			EnableIRDA();
 		}
 		
-		delayms(100);
+		//delayms(100);
 		
 		RateProcess();
 	}
@@ -58,7 +58,7 @@ void delayms(uchar ms)
 	SystemFlag |= bDelay;
 	while(1)
 	{
-		if (timer0_count > ms*8)
+		if (timer0_count > ms)
 		{
 			SystemFlag &= ~bDelay;
 			return;

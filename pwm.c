@@ -10,9 +10,11 @@ uchar ISR_PWM_FREQ(void)
 	freq++;
 	if (freq>=PWM_FREQ)
 	{
-		StartPWM();
+		//StartPWM();
+		P0 = 0;
 		freq = 0;
 		pwmFlag |= PWMSTART;
+		//P1 = ~pwmFlag;
 		return 1;
 	}
 	
@@ -26,7 +28,9 @@ uchar ISR_PWM_PulseWidth(void)
 	{
 		pwmFlag &= ~PWMPULSE;
 		pwmFlag &= ~PWMSTART;
-		StopPWM();
+		//P1 = ~pwmFlag;
+		//StopPWM();
+		P0 = 0xff;
 		pulse = 0;
 		return 1;
 	}
@@ -42,6 +46,7 @@ void Rate(uchar type)
 			PWM++;
 		else
 			Beep();
+		//DisplayHex(PWM, 1);
 	}
 	else			// increase speed
 	{
@@ -49,6 +54,7 @@ void Rate(uchar type)
 			PWM--;
 		else
 			Beep();
+		//DisplayHex(PWM, 1);
 	}
 }
 
@@ -61,6 +67,7 @@ void RateProcess(void)
 	}
 	else if (KeyFlag & KEY2ON)
 	{
-		KeyFlag &= ~(KEY1ON);
+		Rate(0);
+		KeyFlag &= ~(KEY2ON);
 	}
 }

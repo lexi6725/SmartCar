@@ -16,16 +16,18 @@ void ISR_KEY(void)
 	
 	for (key = 0; key < KEYNUM; ++key)
 	{
-		if (KeyFlag&(1<<(4+key)))
+		if (KeyFlag&(1<<key))
 		{
 			if (keytime[key]++ >= KEYDELAYTIME)
 			{
 				KeyFlag |= (1<<(4+key));
+				P1 = ~KeyFlag;
 				keytime[key] = 0;
 			}
 		}
 		else
 		{
+			//KeyFlag &= ~(1<<(4+key));
 			keytime[key] = 0;
 		}
 	}
@@ -39,15 +41,22 @@ void ISR_KEY(void)
  */
 void KeyCheck(void)
 {
-	uchar i;
+	uchar i, j;
 	
 	for (i = 0; i < KEYNUM; ++i)
 	{
 		// MAP: S2: P3^4, S3:P3^5, S4:P3^6, S5:P3^7
 		if (P3&(1<<(i+4)))		
-			KeyFlag |= (1<<i);	// set flag key bit
+			KeyFlag &= ~(1<<i);	// set flag key bit
 		else
-			KeyFlag &= ~(1<<i);
+		{
+			//for(j = 0; j < 2; ++j)
+			//{
+			//	if (!(P3&(1<<(i+4))))
+					KeyFlag |= (1<<i);
+			//}
+		}
 		
 	}
+	P1 = ~KeyFlag;
 }
