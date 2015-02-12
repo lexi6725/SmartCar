@@ -1,10 +1,11 @@
 #include "config.h"
 
-uchar PWM = 0x1;
+uchar PWM = 0x3;
 uchar SystemFlag = 0;
 
 sbit dula=P2^6;
 sbit wela=P2^7;
+
 
 void DisableLED()
 {
@@ -20,7 +21,7 @@ void DisableLED()
 void SystemInit(void)
 {
 	P1 = 0xff;
-	InitIRDA();
+	EnableIRDA();
 	InitTimer();
 	DisableLED();
 }
@@ -31,10 +32,13 @@ void main()
 	
 	while(1)
 	{
-		KeyCheck();
+		//KeyCheck();
 		
 		if (SystemFlag & bIRDA)
+		{
 			IrProcess();
+			EnableIRDA();
+		}
 		
 		delayms(100);
 		

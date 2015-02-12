@@ -5,11 +5,11 @@ sbit  BEEP =P2^3;
 void Beep(void)
 {
 	unsigned char i;
-	for (i=0;i<10;i++)
+	for (i=0;i<100;i++)
 	{
-		delay(1);
+		delay(100);
 		BEEP=!BEEP;
 	} 
 	BEEP=1;
-	delayms(1);
+	delayms(10);
 }

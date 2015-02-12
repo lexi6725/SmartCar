@@ -12,6 +12,7 @@ uchar ISR_PWM_FREQ(void)
 	{
 		StartPWM();
 		freq = 0;
+		pwmFlag |= PWMSTART;
 		return 1;
 	}
 	
@@ -23,6 +24,8 @@ uchar ISR_PWM_PulseWidth(void)
 	pulse++;
 	if(pulse>=PWM)
 	{
+		pwmFlag &= ~PWMPULSE;
+		pwmFlag &= ~PWMSTART;
 		StopPWM();
 		pulse = 0;
 		return 1;
@@ -31,22 +34,33 @@ uchar ISR_PWM_PulseWidth(void)
 	return 0;
 }
 
-void RateProcess(void)
+void Rate(uchar type)
 {
-	if (KeyFlag & KEY1ON)
+	if (type)		// reduce speed
 	{
 		if (PWM < 0x20)
 			PWM++;
 		else
 			Beep();
+	}
+	else			// increase speed
+	{
+		if(PWM > 2)
+			PWM--;
+		else
+			Beep();
+	}
+}
+
+void RateProcess(void)
+{
+	if (KeyFlag & KEY1ON)
+	{
+		Rate(1);
 		KeyFlag &= ~(KEY1ON);
 	}
 	else if (KeyFlag & KEY2ON)
 	{
-		if(PWM >= 1)
-			PWM--;
-		else
-			Beep();
 		KeyFlag &= ~(KEY1ON);
 	}
 }

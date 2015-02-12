@@ -1,7 +1,7 @@
 #ifndef __CONFIG_H_
 #define __CONFIG_H_
-#include<reg51.h>
-#include<intrins.h>
+#include <reg51.h>
+#include <intrins.h>
 
 typedef unsigned char uchar;
 
@@ -32,13 +32,16 @@ extern uchar SystemFlag;
 // PWM
 extern uchar PWM;
 extern uchar pwmFlag;
+extern bit pwmstartflag;
 #define PWMPULSE	(1<<0)
+#define PWMSTART	(1<<1)
 #define PWM_FREQ	32		// Timer0 * PWM_FREQ = 0.128 * 32 = 4.096 ms  PWM Freq = 1000/4.096 = 244Hz
-#define StartPWM()	(pwm = 0);
-#define StopPWM()	(pwm = 1);
+#define StartPWM()	(pwm &= 0);
+#define StopPWM()	(pwm |= 1);
 
 // Key
 extern uchar KeyFlag;
+#define KEYNUM			4
 #define KEYDELAYTIME	80	// 80 * 0.128ms = 10.24ms
 #define KEY1DOWN	(1<<0)
 #define KEY2DOWN	(1<<1)
@@ -60,7 +63,37 @@ extern uchar KeyFlag;
 #define StopTimer1()			(TR1 = 0);
 // extra interrupt
 #define Enabel_EX0INT()			(EX0 = 1);
+#define Disable_EX0INT()		(EX0 &= ~1);
 #define EX0M0					(1<<0)
+
+// *********** Digital LED **************** //
+#define SEG_a
+#define SEG_b
+#define SEG_c
+#define SEG_d
+#define SEG_e
+#define SEG_f
+#define SEG_g
+#define SEG_point
+
+#define CHAR_1	(SEG_b|SEG_c)
+#define CHAR_2	(SEG_a|SEG_b|SEG_d|SEG_e|SEG_g)
+#define CHAR_3	(SEG_a|SEG_b|SEG_d|SEG_c|SEG_g)
+#define CHAR_4	(SEG_b|SEG_c|SEG_f|SEG_g)
+#define CHAR_5	(SEG_a|SEG_c|SEG_d|SEG_f|SEG_g)
+#define CHAR_6	(SEG_a|SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
+#define CHAR_7	(SEG_a|SEG_b|SEG_c)
+#define CHAR_8	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
+#define CHAR_9	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_f|SEG_g)
+#define CHAR_0	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f)
+#define CHAR_A	(SEG_a|SEG_b|SEG_c|SEG_e|SEG_f|SEG_g)
+#define CHAR_B	(SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
+#define CHAR_C	(SEG_a|SEG_d|SEG_e|SEG_f)
+#define CHAR_D	(SEG_b|SEG_c|SEG_d|SEG_e|SEG_g)
+#define CHAR_E	(SEG_a|SEG_d|SEG_e|SEG_f|SEG_g)
+#define CHAR_F	(SEG_a|SEG_e|SEG_f|SEG_g)
+
+
 
 // Delay
 extern uchar timer0_count;		// Use to Delay() count
@@ -77,8 +110,10 @@ extern void InitTimer(void);
 extern void Beep(void);
 extern void KeyCheck(void);
 extern void KeyInit(void);
+extern void Rate(uchar type);
 extern void RateProcess(void);
-extern void InitIRDA(void);
+extern void EnableIRDA(void);
+extern void DisableIRDA(void);
 extern void IrProcess(void);
 extern void ISR_IRDA_PulseWidth(void);
 
