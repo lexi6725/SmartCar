@@ -21,13 +21,12 @@ void ISR_KEY(void)
 			if (keytime[key]++ >= KEYDELAYTIME)
 			{
 				KeyFlag |= (1<<(4+key));
-				P1 = ~KeyFlag;
+				DisplayLEDFlag(KeyFlag);
 				keytime[key] = 0;
 			}
 		}
 		else
 		{
-			//KeyFlag &= ~(1<<(4+key));
 			keytime[key] = 0;
 		}
 	}
@@ -41,7 +40,7 @@ void ISR_KEY(void)
  */
 void KeyCheck(void)
 {
-	uchar i, j;
+	uchar i;
 	
 	for (i = 0; i < KEYNUM; ++i)
 	{
@@ -50,13 +49,9 @@ void KeyCheck(void)
 			KeyFlag &= ~(1<<i);	// set flag key bit
 		else
 		{
-			//for(j = 0; j < 2; ++j)
-			//{
-			//	if (!(P3&(1<<(i+4))))
-					KeyFlag |= (1<<i);
-			//}
+			KeyFlag |= (1<<i);
 		}
 		
 	}
-	P1 = ~KeyFlag;
+	DisplayLEDFlag(KeyFlag);
 }

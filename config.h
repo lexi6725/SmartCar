@@ -7,11 +7,9 @@ typedef unsigned char uchar;
 
 // System Flag
 extern uchar SystemFlag;
+#define bSecond		(1<<5)
 #define bIRDA		(1<<6)
 #define bDelay		(1<<7)
-
-#define KEY_1	1
-#define KEY_2	2
 
 // Define Timer0 and Timer1 Preset value
 #define TIMER0PRETH	0xF8	// Timer0 0.128ms: 8192-256 = 0x1F00 / 0x20 = 0xF8
@@ -30,19 +28,21 @@ extern uchar SystemFlag;
 #define T1M3	0x0c
 
 // PWM
-extern uchar PWM;
-extern uchar pwmFlag;
+extern uchar PWM;			// Speed Control
+extern uchar pwmFlag;		// PWM Status Flag
 extern bit pwmstartflag;
 #define PWMPULSE	(1<<0)
 #define PWMSTART	(1<<1)
+#define PWMRUN		(1<<2)
 #define PWM_FREQ	32		// Timer0 * PWM_FREQ = 0.128 * 32 = 4.096 ms  PWM Freq = 1000/4.096 = 244Hz
-#define StartPWM()	(pwm &= 0);
-#define StopPWM()	(pwm |= 1);
+#define StartPWM()	(pwmFlag |= PWMRUN)
+#define StopPWM()	(pwmFlag &= !PWMRUN)
+#define PWMisRun()	(pwmFlag & PWMRUN)
 
 // Key
 extern uchar KeyFlag;
 #define KEYNUM			4
-#define KEYDELAYTIME	0xff	// 80 * 0.128ms = 10.24ms
+#define KEYDELAYTIME	0xA0	// 80 * 0.128ms = 10.24ms
 #define KEY1DOWN	(1<<0)
 #define KEY2DOWN	(1<<1)
 #define KEY3DOWN	(1<<2)
@@ -66,7 +66,7 @@ extern uchar KeyFlag;
 #define Disable_EX0INT()		(EX0 &= ~1);
 #define EX0M0					(1<<0)
 
-// *********** Digital LED **************** //
+// *********** Digital LEDs **************** //
 #define SEG_a		(1<<0)
 #define SEG_b		(1<<1)
 #define SEG_c		(1<<2)
@@ -93,6 +93,9 @@ extern uchar KeyFlag;
 #define CHAR_E	(SEG_a|SEG_d|SEG_e|SEG_f|SEG_g)
 #define CHAR_F	(SEG_a|SEG_e|SEG_f|SEG_g)
 
+//************** Eight LED ***************//
+extern void DisplayLEDFlag(uchar flag);
+extern void DisplayLED(uchar flag);
 
 
 // Delay
@@ -100,11 +103,13 @@ extern uchar timer0_count;		// Use to Delay() count
 
 extern void delay(uchar t);
 extern void delayms(uchar ms);
+extern void delay_nop(void);
 
 extern uchar ISR_PWM_FREQ(void);
 extern uchar ISR_PWM_PulseWidth(void);
 extern void ISR_IRDA(void);
 extern void ISR_KEY(void);
+extern void ISR_Second(void);
 
 extern void InitTimer(void);
 extern void Beep(void);
@@ -118,5 +123,5 @@ extern void IrProcess(void);
 extern void ISR_IRDA_PulseWidth(void);
 extern void DisplayHex(uchar num, uchar addr);
 extern void DisableLEDs(void);
-
+extern void SecondProcess(void);
 #endif

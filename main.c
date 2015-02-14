@@ -1,30 +1,20 @@
 #include "config.h"
 
-uchar PWM = 0x10;
+uchar PWM = 0x1a;
 uchar SystemFlag = 0;
+int second_count = 0;
 
 sbit dula=P2^6;
 sbit wela=P2^7;
 
-
-/*void DisableLED()
-{
-	P0=0x00;
-	dula=1;
-	wela=0;
-	delay(10);
-	dula=0;
-	wela=0;
-	delay(10);
-}	*/
 
 void SystemInit(void)
 {
 	P1 = 0xff;
 	EnableIRDA();
 	InitTimer();
-	//DisableLED();
 	DisableLEDs();
+	StartPWM();
 }
 
 void main()
@@ -33,10 +23,7 @@ void main()
 	
 	while(1)
 	{
-		//KeyCheck();
-		//DisplayHex(KeyFlag, 1);
-		//DisplayHex(SystemFlag, 3);
-		//DisplayHex(pwmFlag, 5);
+		//DisplayHex(PWM, 1);
 		
 		if (SystemFlag & bIRDA)
 		{
@@ -44,14 +31,28 @@ void main()
 			EnableIRDA();
 		}
 		
-		//delayms(100);
+		RateProcess();			// Deal With PWM Speed
 		
-		RateProcess();
+		if (SystemFlag & bSecond)
+			SecondProcess();
 	}
 	
 }
 
+void ISR_Second(void)
+{
+	if(second_count++ > 7812)
+	{
+		second_count = 0;
+		SystemFlag |= bSecond;
+	}
+}
 
+void SecondProcess(void)
+{
+	DisplayHex(SystemFlag, 1);		// Display SystemFlag For Debug
+	SystemFlag &= ~bSecond;
+}
 
 void delayms(uchar ms)
 {
@@ -70,3 +71,11 @@ void delay(uchar t)
 { 
 	while(--t);
 }
+/*
+void delay_nop(void)
+{
+	_nop_();
+	_nop_();
+	_nop_();
+	_nop_();
+}*/

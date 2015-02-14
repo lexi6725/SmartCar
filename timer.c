@@ -7,20 +7,23 @@ void InitTimer(void)
 	// Timer0 & Timer1 Use Mode 0: 13Bit
 	TMOD = (0|T0M0|T1M0);
 	
- 	TH0=TIMER0PRETH;      // 延时常数
-    TL0=TIMER0PRETL;      // 频率调节
+	/*
+	 * Timer0: 0.128ms Interrupt
+	 */
+ 	TH0=TIMER0PRETH;      	// Frequency
+    TL0=TIMER0PRETL;
 	
-    TH1=TIMER1PRETH;      // 脉宽调节
+    TH1=TIMER1PRETH;      	// Pulse Width
     TL1=TIMER1PRETL;
 	
-	Enable_Interrupt();
-	Enable_TIMER0_Int();
-	Enable_TIMER1_Int();
-    StartTimer0();		// 关闭定时器1
+	Enable_Interrupt();		// Enabel Interrupt
+	Enable_TIMER0_Int();	// Enabel Timer0 Interrupt
+	Enable_TIMER1_Int();	// Enabel Timer0 Interrupt
+    StartTimer0();			// Start Timer0
 }
 
 /*
- * Timer0: Use 1ms
+ * Timer0: Use 0.128ms
  * 
  */
 void timer0() interrupt 1 
@@ -31,7 +34,7 @@ void timer0() interrupt 1
 	ISR_IRDA_PulseWidth();
 	
 	// ISR PWM Frequrey
-    if(ISR_PWM_FREQ())      //PWM 频率调节
+    if(ISR_PWM_FREQ())      //PWM Frequency
 	{
 		pwmFlag |= PWMPULSE;
 	}
@@ -43,10 +46,12 @@ void timer0() interrupt 1
 	KeyCheck();
 	ISR_KEY();
 	
-	if (SystemFlag&bDelay)
+	if (SystemFlag&bDelay)		// Delay count
 		timer0_count++;
 	else
 		timer0_count = 0;
+	
+	ISR_Second();
 }
 
 void timer1() interrupt 3 

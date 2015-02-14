@@ -20,10 +20,11 @@ void DisableLEDs(void)
 
 void SelectBit(uchar addr)
 {
-	while(((pwmFlag&PWMSTART)&&(addr!=1)) || (!(pwmFlag&PWMSTART) && (addr==1)));
+	while(((pwmFlag&PWMSTART)&&(DigitTab[addr]&SEG_a)) || (!(pwmFlag&PWMSTART) && !(DigitTab[addr]&SEG_a)));
 	wela = 0;
 	P0 = 0x7e<<(addr-1);
 	wela = 1;
+	wela = 0;
 }
 
 void SendChar(uchar num)
@@ -32,14 +33,15 @@ void SendChar(uchar num)
 	dula = 0;
 	P0 = DigitTab[num];
 	dula = 1;
+	dula = 0;
 }
 
 void DisplayHex(uchar num, uchar addr)
 {
-	SelectBit(addr);
 	SendChar(num&0xf);
-	SelectBit(addr+1);
+	SelectBit(addr);
 	SendChar((num&0xf0)>>4);
+	SelectBit(addr+1);
 }
 /*
 void DisplayDigital(uchar num, uchar addr)
