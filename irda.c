@@ -103,7 +103,7 @@ void IrProcess(void)
 	if (checkdata())
 		return;
 	
-	DisplayHex(ircode[0], 3);
-	DisplayHex(ircode[2], 5);
+//	DisplayHex(ircode[0], 3);
+//	DisplayHex(ircode[2], 5);
 	IrCmdProcess();
 }

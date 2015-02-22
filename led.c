@@ -1,6 +1,7 @@
 #include "config.h"
 
 sbit diola = P2^5;
+static uchar keydisp;
 
 void DisplayLED(uchar Bits)
 {
@@ -12,5 +13,11 @@ void DisplayLED(uchar Bits)
 
 void DisplayLEDFlag(uchar flag)
 {
-	DisplayLED(~flag);
+	uchar i;
+	for(i = 0; i < 8; ++i)
+		if(flag&(1<<i))
+			keydisp |= (1<<i);
+		else
+			keydisp &= ~(1<<i);
+	DisplayLED(~keydisp);
 }

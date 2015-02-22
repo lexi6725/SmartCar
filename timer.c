@@ -37,10 +37,13 @@ void timer0() interrupt 1
     if(ISR_PWM_FREQ())      //PWM Frequency
 	{
 		pwmFlag |= PWMPULSE;
+		DispFlag();
 	}
+	DispFlag();
 	if (pwmFlag&PWMPULSE)
 	{
 		ISR_PWM_PulseWidth();
+		DispFlag();
 	}
 	
 	KeyCheck();

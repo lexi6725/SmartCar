@@ -7,6 +7,17 @@ int second_count = 0;
 sbit dula=P2^6;
 sbit wela=P2^7;
 
+void DisableLEDs(void)
+{
+	P0=0x00;
+	dula=1;
+	wela=0;
+	delay(10);
+	dula=0;
+	wela=0;
+	delay(10);
+	P0 = 0xff;
+}
 
 void SystemInit(void)
 {
@@ -17,14 +28,17 @@ void SystemInit(void)
 	StartPWM();
 }
 
+void DispFlag(void)
+{
+	DisplayLEDFlag(pwmFlag&(PWMRUN|PWMPULSE));
+}
+
 void main()
 {
 	SystemInit();
 	
 	while(1)
 	{
-		//DisplayHex(PWM, 1);
-		
 		if (SystemFlag & bIRDA)
 		{
 			IrProcess();
@@ -33,8 +47,10 @@ void main()
 		
 		RateProcess();			// Deal With PWM Speed
 		
+//		DispFlag();
 		if (SystemFlag & bSecond)
 			SecondProcess();
+//		DispFlag();
 	}
 	
 }
@@ -50,7 +66,7 @@ void ISR_Second(void)
 
 void SecondProcess(void)
 {
-	DisplayHex(SystemFlag, 1);		// Display SystemFlag For Debug
+//	DisplayHex(SystemFlag, 1);		// Display SystemFlag For Debug
 	SystemFlag &= ~bSecond;
 }
 

@@ -21,7 +21,7 @@ void ISR_KEY(void)
 			if (keytime[key]++ >= KEYDELAYTIME)
 			{
 				KeyFlag |= (1<<(4+key));
-				DisplayLEDFlag(KeyFlag);
+//				DisplayLEDFlag(KeyFlag);
 				keytime[key] = 0;
 			}
 		}
@@ -53,5 +53,5 @@ void KeyCheck(void)
 		}
 		
 	}
-	DisplayLEDFlag(KeyFlag);
+//	DisplayLEDFlag(KeyFlag);
 }

@@ -15,8 +15,8 @@ uchar ISR_PWM_FREQ(void)
 {
 	if (!PWMisRun())
 	{
-		pwmFlag &= ~(PWMSTART|PWMPULSE);
-		pwm = 1;
+		pwmFlag &= ~(PWMPULSE);
+		pwm = 0;
 		return 0;
 	}
 	
@@ -25,7 +25,6 @@ uchar ISR_PWM_FREQ(void)
 	{
 		pwm = 0;			// Start out PWM
 		freq = 0;
-		pwmFlag |= PWMSTART;	// Set Start PWM Flag
 		return 1;
 	}
 	
@@ -45,7 +44,6 @@ uchar ISR_PWM_PulseWidth(void)
 	if(pulse>=PWM)			// Speed Controller
 	{
 		pwmFlag &= ~PWMPULSE;
-		pwmFlag &= ~PWMSTART;
 		pwm = 0x1;			// Stop out PWM
 		pulse = 0;
 		return 1;

@@ -32,17 +32,16 @@ extern uchar PWM;			// Speed Control
 extern uchar pwmFlag;		// PWM Status Flag
 extern bit pwmstartflag;
 #define PWMPULSE	(1<<0)
-#define PWMSTART	(1<<1)
-#define PWMRUN		(1<<2)
+#define PWMRUN		(1<<1)
 #define PWM_FREQ	32		// Timer0 * PWM_FREQ = 0.128 * 32 = 4.096 ms  PWM Freq = 1000/4.096 = 244Hz
 #define StartPWM()	(pwmFlag |= PWMRUN)
-#define StopPWM()	(pwmFlag &= !PWMRUN)
+#define StopPWM()	(pwmFlag &= ~PWMRUN)
 #define PWMisRun()	(pwmFlag & PWMRUN)
 
 // Key
 extern uchar KeyFlag;
 #define KEYNUM			4
-#define KEYDELAYTIME	0xA0	// 80 * 0.128ms = 10.24ms
+#define KEYDELAYTIME	0x50	// 80 * 0.128ms = 10.24ms
 #define KEY1DOWN	(1<<0)
 #define KEY2DOWN	(1<<1)
 #define KEY3DOWN	(1<<2)
@@ -67,31 +66,31 @@ extern uchar KeyFlag;
 #define EX0M0					(1<<0)
 
 // *********** Digital LEDs **************** //
-#define SEG_a		(1<<0)
-#define SEG_b		(1<<1)
-#define SEG_c		(1<<2)
-#define SEG_d		(1<<3)
-#define SEG_e		(1<<4)
-#define SEG_f		(1<<5)
-#define SEG_g		(1<<6)
-#define SEG_point	(1<<7)
+//#define SEG_a		(1<<0)
+//#define SEG_b		(1<<1)
+//#define SEG_c		(1<<2)
+//#define SEG_d		(1<<3)
+//#define SEG_e		(1<<4)
+//#define SEG_f		(1<<5)
+//#define SEG_g		(1<<6)
+//#define SEG_point	(1<<7)
 
-#define CHAR_0	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f)
-#define CHAR_1	(SEG_b|SEG_c)
-#define CHAR_2	(SEG_a|SEG_b|SEG_d|SEG_e|SEG_g)
-#define CHAR_3	(SEG_a|SEG_b|SEG_d|SEG_c|SEG_g)
-#define CHAR_4	(SEG_b|SEG_c|SEG_f|SEG_g)
-#define CHAR_5	(SEG_a|SEG_c|SEG_d|SEG_f|SEG_g)
-#define CHAR_6	(SEG_a|SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
-#define CHAR_7	(SEG_a|SEG_b|SEG_c)
-#define CHAR_8	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
-#define CHAR_9	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_f|SEG_g)
-#define CHAR_A	(SEG_a|SEG_b|SEG_c|SEG_e|SEG_f|SEG_g)
-#define CHAR_B	(SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
-#define CHAR_C	(SEG_a|SEG_d|SEG_e|SEG_f)
-#define CHAR_D	(SEG_b|SEG_c|SEG_d|SEG_e|SEG_g)
-#define CHAR_E	(SEG_a|SEG_d|SEG_e|SEG_f|SEG_g)
-#define CHAR_F	(SEG_a|SEG_e|SEG_f|SEG_g)
+//#define CHAR_0	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f)
+//#define CHAR_1	(SEG_b|SEG_c)
+//#define CHAR_2	(SEG_a|SEG_b|SEG_d|SEG_e|SEG_g)
+//#define CHAR_3	(SEG_a|SEG_b|SEG_d|SEG_c|SEG_g)
+//#define CHAR_4	(SEG_b|SEG_c|SEG_f|SEG_g)
+//#define CHAR_5	(SEG_a|SEG_c|SEG_d|SEG_f|SEG_g)
+//#define CHAR_6	(SEG_a|SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
+//#define CHAR_7	(SEG_a|SEG_b|SEG_c)
+//#define CHAR_8	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
+//#define CHAR_9	(SEG_a|SEG_b|SEG_c|SEG_d|SEG_f|SEG_g)
+//#define CHAR_A	(SEG_a|SEG_b|SEG_c|SEG_e|SEG_f|SEG_g)
+//#define CHAR_B	(SEG_c|SEG_d|SEG_e|SEG_f|SEG_g)
+//#define CHAR_C	(SEG_a|SEG_d|SEG_e|SEG_f)
+//#define CHAR_D	(SEG_b|SEG_c|SEG_d|SEG_e|SEG_g)
+//#define CHAR_E	(SEG_a|SEG_d|SEG_e|SEG_f|SEG_g)
+//#define CHAR_F	(SEG_a|SEG_e|SEG_f|SEG_g)
 
 //************** Eight LED ***************//
 extern void DisplayLEDFlag(uchar flag);
@@ -121,7 +120,9 @@ extern void EnableIRDA(void);
 extern void DisableIRDA(void);
 extern void IrProcess(void);
 extern void ISR_IRDA_PulseWidth(void);
-extern void DisplayHex(uchar num, uchar addr);
+//extern void DisplayHex(uchar num, uchar addr);
 extern void DisableLEDs(void);
 extern void SecondProcess(void);
+
+extern void DispFlag(void);
 #endif
